@@ -1,56 +1,93 @@
-"""
-Pure Streamlit Sidebar
-
-No external libraries.
-Easy to understand.
-Easy to extend.
-"""
-
 import streamlit as st
-
-from config.menu_config import HOME_ITEM, MENU_SECTIONS
 
 
 def render_sidebar():
-    """
-    Render the sidebar and return the selected page.
-    """
 
     with st.sidebar:
 
+        # ==========================================
+        # BRAND
+        # ==========================================
+
         st.title("🧮 UtilityHub")
+        st.caption("Smart Calculators & Converters")
 
         st.divider()
 
-        # ---------------- Home ---------------- #
+        # ==========================================
+        # HOME
+        # ==========================================
 
         if st.button(
-            HOME_ITEM["label"],
+            "Home",
+            icon=":material/home:",
             use_container_width=True,
-            key="home",
+            key="sidebar_home",
         ):
-            st.session_state.page = HOME_ITEM["label"]
+            st.session_state.page = "Home"
 
-        st.write("")
+        # ==========================================
+        # CALCULATORS
+        # ==========================================
 
-        # ---------------- Sections ---------------- #
+        st.markdown("### CALCULATORS")
 
-        for section in MENU_SECTIONS:
+        calculators = [
+            ("Basic Calculator", "calculate"),
+            ("Scientific Calculator", "functions"),
+            ("CGPA Calculator", "school"),
+            ("GPA Calculator", "bar_chart"),
+            ("BMI Calculator", "monitor_weight"),
+            ("Age Calculator", "cake"),
+            ("Percentage Calculator", "percent"),
+        ]
 
-            st.subheader(section["title"])
+        for label, icon in calculators:
 
-            for item in section["items"]:
+            if st.button(
+                label,
+                icon=f":material/{icon}:",
+                use_container_width=True,
+                key=f"sidebar_{label}",
+            ):
+                st.session_state.page = label
 
-                if st.button(
-                    item["label"],
-                    use_container_width=True,
-                    key=item["label"],
-                ):
-                    st.session_state.page = item["label"]
+        # ==========================================
+        # CONVERTERS
+        # ==========================================
 
-            st.write("")
+        st.markdown("### CONVERTERS")
 
-    if "page" not in st.session_state:
-        st.session_state.page = HOME_ITEM["label"]
+        converters = [
+            ("Length Converter", "straighten"),
+            ("Weight Converter", "fitness_center"),
+            ("Temperature Converter", "device_thermostat"),
+            ("Volume Converter", "water_drop"),
+            ("Area Converter", "square_foot"),
+        ]
 
-    return st.session_state.page
+        for label, icon in converters:
+
+            if st.button(
+                label,
+                icon=f":material/{icon}:",
+                use_container_width=True,
+                key=f"sidebar_{label}",
+            ):
+                st.session_state.page = label
+
+        # ==========================================
+        # BOTTOM
+        # ==========================================
+
+        st.divider()
+
+        if st.button(
+            "About Us",
+            icon=":material/info:",
+            use_container_width=True,
+            key="sidebar_about",
+        ):
+            st.session_state.page = "About Us"
+
+        st.caption("UtilityHub • 2026")
